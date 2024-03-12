@@ -1,9 +1,9 @@
 ﻿namespace TodoApp.Models
 {
-    public enum TodoStatus
+    public enum ToDoStatus
     {
-        Bashlanmadi,
-        Jarayonda,
-        Tugagan
+        NotStarted,
+        InProcess,
+        Compeleted
     }
 }

@@ -19,13 +19,13 @@ namespace TodoApp.Controllers
             _context = context;
         }
 
-        // GET: Todoes
+        // GET: To does
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Todos.ToListAsync());
+            return View(await _context.ToDoes.ToListAsync());
         }
 
-        // GET: Todoes/Details/5
+        // GET: To does/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.Todos
+            var todo = await _context.ToDoes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (todo == null)
             {
@@ -43,18 +43,18 @@ namespace TodoApp.Controllers
             return View(todo);
         }
 
-        // GET: Todoes/Create
+        // GET: To does/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Todoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // POST: ToDoes/Create
+        // To protect from overpoting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,todoStatus")] Todo todo)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,todoStatus")] ToDo todo)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace TodoApp.Controllers
             return View(todo);
         }
 
-        // GET: Todoes/Edit/5
+        // GET: To does/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.Todos.FindAsync(id);
+            var todo = await _context.ToDoes.FindAsync(id);
             if (todo == null)
             {
                 return NotFound();
@@ -81,12 +81,12 @@ namespace TodoApp.Controllers
             return View(todo);
         }
 
-        // POST: Todoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // POST: To Does/Edit/5
+        // To protect from over posting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,todoStatus")] Todo todo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,todoStatus")] ToDo todo)
         {
             if (id != todo.Id)
             {
@@ -116,7 +116,7 @@ namespace TodoApp.Controllers
             return View(todo);
         }
 
-        // GET: Todoes/Delete/5
+        // GET: To does/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.Todos
+            var todo = await _context.ToDoes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (todo == null)
             {
@@ -134,15 +134,15 @@ namespace TodoApp.Controllers
             return View(todo);
         }
 
-        // POST: Todoes/Delete/5
+        // POST: To does/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var todo = await _context.Todos.FindAsync(id);
+            var todo = await _context.ToDoes.FindAsync(id);
             if (todo != null)
             {
-                _context.Todos.Remove(todo);
+                _context.ToDoes.Remove(todo);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace TodoApp.Controllers
 
         private bool TodoExists(int id)
         {
-            return _context.Todos.Any(e => e.Id == id);
+            return _context.ToDoes.Any(e => e.Id == id);
         }
     }
 }

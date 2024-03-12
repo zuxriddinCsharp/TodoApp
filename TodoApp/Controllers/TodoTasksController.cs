@@ -22,7 +22,7 @@ namespace TodoApp.Controllers
         // GET: TodoTasks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TodoTask.ToListAsync());
+            return View(await _context.ToDoTasks.ToListAsync());
         }
 
         // GET: TodoTasks/Details/5
@@ -33,19 +33,22 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todoTask = await _context.TodoTask
+            var toDoTask = await _context.ToDoTasks
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (todoTask == null)
+            if (toDoTask == null)
             {
                 return NotFound();
             }
 
-            return View(todoTask);
+            return View(toDoTask);
         }
-
+        [HttpGet]
         // GET: TodoTasks/Create
         public IActionResult Create()
         {
+            var toDoes = _context.ToDoes.ToList();
+            ViewBag.ToDoes = new SelectList(toDoes, "Id", "Name");
+
             return View();
         }
 
@@ -54,15 +57,26 @@ namespace TodoApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Due_Data,Status")] TodoTask todoTask)
+        public async Task<IActionResult> Create(ToDoTask toDoTask)
         {
+            ModelState.Remove("ToDo");
+            //toDoTask.ToDo = _context.ToDoes.FirstOrDefault(x => x.Id == toDoTask.ToDoId);
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                foreach (var error in state.Errors)
+                {
+                    Console.WriteLine($"{key}: {error.ErrorMessage}");
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(todoTask);
+                _context.Add(toDoTask);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(todoTask);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TodoTasks/Edit/5
@@ -73,12 +87,12 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todoTask = await _context.TodoTask.FindAsync(id);
-            if (todoTask == null)
+            var toDoTask = await _context.ToDoTasks.FindAsync(id);
+            if (toDoTask == null)
             {
                 return NotFound();
             }
-            return View(todoTask);
+            return View(toDoTask);
         }
 
         // POST: TodoTasks/Edit/5
@@ -86,7 +100,7 @@ namespace TodoApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Due_Data,Status")] TodoTask todoTask)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Due_Data,Status")] ToDoTask todoTask)
         {
             if (id != todoTask.Id)
             {
@@ -124,7 +138,7 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todoTask = await _context.TodoTask
+            var todoTask = await _context.ToDoTasks
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (todoTask == null)
             {
@@ -139,10 +153,10 @@ namespace TodoApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var todoTask = await _context.TodoTask.FindAsync(id);
+            var todoTask = await _context.ToDoTasks.FindAsync(id);
             if (todoTask != null)
             {
-                _context.TodoTask.Remove(todoTask);
+                _context.ToDoTasks.Remove(todoTask);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +165,7 @@ namespace TodoApp.Controllers
 
         private bool TodoTaskExists(int id)
         {
-            return _context.TodoTask.Any(e => e.Id == id);
+            return _context.ToDoTasks.Any(e => e.Id == id);
         }
     }
 }
