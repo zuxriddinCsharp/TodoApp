@@ -1,5 +1,4 @@
-﻿@model TodoApp.Models.TodoTask
-
+﻿@model TodoApp.Models.ToDoTask
 @{
     ViewData["Title"] = "Create";
 }
@@ -25,12 +24,13 @@
             <div class="form-group">
                 <label asp-for="Due_Data" class="control-label"></label>
                 <input asp-for="Due_Data" class="form-control" />
-                <span asp-validation-for="Due_Data" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
+                <label asp-for="ToDo" class="control-label">Select To Do</label>
+                <select asp-for="ToDoId" class="form-control" asp-items="ViewBag.ToDoes">
+
+                </select>
+                <span asp-validation-for="ToDoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

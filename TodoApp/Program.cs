@@ -5,7 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<TodoDbContext>(options=>options.UseSqlServer("Data Source=LAPTOP-GMDI78TU;Initial Catalog=TodoDb;Integrated Security=True;Pooling=False;Encrypt=True;Trust Server Certificate=True"));
+builder.Services.AddDbContext<TodoDbContext>(options=>options.UseSqlServer("Data Source=win-37kmc9akimf;Initial Catalog=ToDoApp;Integrated Security=True;Pooling=False;Encrypt=True;Trust Server Certificate=True"));
+builder.Services.AddDbContext<ExpenseManagerDbContext>(options => options.UseSqlServer("Data Source=WIN-37KMC9AKIMF;Initial Catalog=ExpenseManager;Integrated Security=True;Pooling=False;Encrypt=True;Trust Server Certificate=True"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

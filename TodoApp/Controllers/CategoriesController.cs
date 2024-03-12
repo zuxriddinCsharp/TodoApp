@@ -10,22 +10,22 @@ using TodoApp.Models;
 
 namespace TodoApp.Controllers
 {
-    public class TodoesController : Controller
+    public class CategoriesController : Controller
     {
-        private readonly TodoDbContext _context;
+        private readonly ExpenseManagerDbContext _context;
 
-        public TodoesController(TodoDbContext context)
+        public CategoriesController(ExpenseManagerDbContext context)
         {
             _context = context;
         }
 
-        // GET: To does
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ToDoes.ToListAsync());
+            return View(await _context.Categories.ToListAsync());
         }
 
-        // GET: To does/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.ToDoes
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (todo == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(todo);
+            return View(category);
         }
 
-        // GET: To does/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ToDoes/Create
-        // To protect from overpoting attacks, enable the specific properties you want to bind to.
+        // POST: Categories/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,todoStatus")] ToDo todo)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(todo);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(todo);
+            return View(category);
         }
 
-        // GET: To does/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.ToDoes.FindAsync(id);
-            if (todo == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(todo);
+            return View(category);
         }
 
-        // POST: To Does/Edit/5
-        // To protect from over posting attacks, enable the specific properties you want to bind to.
+        // POST: Categories/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,todoStatus")] ToDo todo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
         {
-            if (id != todo.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace TodoApp.Controllers
             {
                 try
                 {
-                    _context.Update(todo);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TodoExists(todo.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace TodoApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(todo);
+            return View(category);
         }
 
-        // GET: To does/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +124,34 @@ namespace TodoApp.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.ToDoes
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (todo == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(todo);
+            return View(category);
         }
 
-        // POST: To does/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var todo = await _context.ToDoes.FindAsync(id);
-            if (todo != null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
             {
-                _context.ToDoes.Remove(todo);
+                _context.Categories.Remove(category);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TodoExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.ToDoes.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }
