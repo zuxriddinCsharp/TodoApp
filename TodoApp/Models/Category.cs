@@ -12,5 +12,12 @@ namespace TodoApp.Models
         [MaxLength(30,ErrorMessage ="Maximal length 30")]
         [MinLength(3,ErrorMessage ="Minimal length 3")]
         public string Name { get; set; }
+        public ICollection<Income> Incomes { get; set; }
+        public ICollection<Expense> Expenses { get; set; }
+        public Category()
+        {
+            Incomes = new List<Income>();
+            Expenses = new List<Expense>();
+        }
     }
 }

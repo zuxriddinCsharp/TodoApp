@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApp.Data;
 
@@ -11,9 +12,11 @@ using TodoApp.Data;
 namespace TodoApp.Migrations.ExpenseManagerMigrations
 {
     [DbContext(typeof(ExpenseManagerDbContext))]
-    partial class ExpenseManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240313172504_Add-table-Income-and-Expense")]
+    partial class AddtableIncomeandExpense
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,14 +65,13 @@ namespace TodoApp.Migrations.ExpenseManagerMigrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Expenses");
+                    b.ToTable("Expense");
                 });
 
             modelBuilder.Entity("TodoApp.Models.Income", b =>
@@ -94,14 +96,13 @@ namespace TodoApp.Migrations.ExpenseManagerMigrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Incomes");
+                    b.ToTable("Income");
                 });
 
             modelBuilder.Entity("TodoApp.Models.Expense", b =>
